@@ -1,57 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1><a href="index.php">WEB</a></h1>
-    <!-- 반복문 사용하기 전 Data 목록 불러오기 -->
-    <!-- <ol>
-        <li><a href="index.php?id=HTML">HTML</a></li>
-        <li><a href="index.php?id=CSS">CSS</a></li>
-        <li><a href="index.php?id=JavaScript">JavaScript</a></li>
-        <li><a href="index.php?id=PHP">PHP</a></li>
-    </ol> -->
-    <!-- 반복문 사용하기 -->
+<?php
+require_once('lib/print.php');
+?>
+<?php
+require_once('view/top.php');
+?>
+    <!-- 업데이트는 홈 화면에서는 필요없고 개별 항목 선택시에만 떠야 하기 때문에 조건문 사용 -->
     <?php
-     $list = scandir('./data');
-     $i = 0;
-     while($i<count($list)){
-       if($list[$i] != '.'){
-         if($list[$i] != '..'){
-           ?>
-           <li><a href="index.php?id=<?=$list[$i]?>"><?=$list[$i]?></a></li>
-           <?php
-         }
-       }
-       $i = $i +1;
-     }
-     ?>
+    if(isset($_GET['id'])) { ?>
+    <a href="update.php?id=<?php echo $_GET['id']?>">update</a>
+
+    <form action="delete_process.php" method="POST">
+      <input type="hidden" name='id' value="<?=$_GET['id']?>">
+      <input type="submit" value="delete">
+    </form>
+
+    <?php } ?>
 
     <h2>
       <?php
-      if(isset($_GET['id'])){  // isset(~) 괄호안에 값이 있으면 참
-        echo $_GET['id'];
-      } else {
-        echo "Welcome";
-      }
-
+      print_title();
       ?>
     </h2>
-
     <?php
-    if(isset($_GET['id'])){
-      echo file_get_contents("data/".$_GET['id']);
-    }else{
-      echo "Hello PHP";
-
-    }
-
+    print_description();
     ?>
-<!-- id값 유무에 따른 조건문 설정 -->
-
-
-</body>
-</html>
+<?php
+require_once('view/bottom.php');
+?>
